@@ -1,5 +1,5 @@
 
-#' Load yaml files
+#' Title: Load yaml files
 #'
 #' @param file: structured yaml file containing rules
 #' @param validate logical: whether to validate the structure of the rules file

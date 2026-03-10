@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_rules.R
 \name{load_rules}
 \alias{load_rules}
-\title{Load yaml files}
+\title{Title: Load yaml files}
 \usage{
 load_rules(file, validate = TRUE, verbose = TRUE)
 }
@@ -17,7 +17,7 @@ load_rules(file, validate = TRUE, verbose = TRUE)
 A list of rules with class "datavalid_rules" and an attribute "source" containing the file path
 }
 \description{
-Load yaml files
+Title: Load yaml files
 }
 \examples{
 #' # Assuming you have a rules.yaml file structured correctly
