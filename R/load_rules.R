@@ -1,25 +1,27 @@
-
-#' Title: Load yaml files
+#' Load validation rules from a YAML file
 #'
-#' @param file: structured yaml file containing rules
-#' @param validate logical: whether to validate the structure of the rules file
-#' @param verbose logical: whether to print messages about the loading process
+#' @param file Path to YAML file containing rules
+#' @param validate Logical. Validate the structure of the rules file
+#' @param verbose Logical. Print loading messages
 #'
-#' @returns A list of rules with class "datavalid_rules" and an attribute "source" containing the file path
+#' @return A list of rules with class "abayflowr_rules" and attribute "source"
 #'
 #' @export
-#' @examples
-#' #' # Assuming you have a rules.yaml file structured correctly
-#' rules <- load_rules("rules.yaml")
 #'
+#' @examples
+#' \dontrun{
+#' rules <- load_rules("rules.yaml")
+#' }
 load_rules <- function(file, validate = TRUE, verbose = TRUE) {
-
   if (!requireNamespace("yaml", quietly = TRUE)) {
-    stop("Package 'yaml' is required.")
+    stop(
+      "Package 'yaml' is required. Install it with install.packages('yaml')",
+      call. = FALSE
+    )
   }
 
   if (!file.exists(file)) {
-    stop("Rules file does not exist: ", file)
+    stop("Rules file does not exist: ", file, call. = FALSE)
   }
 
   rules <- yaml::read_yaml(file)
@@ -31,13 +33,13 @@ load_rules <- function(file, validate = TRUE, verbose = TRUE) {
   rules <- normalize_rules(rules)
 
   attr(rules, "source") <- normalizePath(file)
-  class(rules) <- "datavalid_rules"
+  class(rules) <- c("abayflowr_rules", class(rules))
 
   if (verbose) {
-    message("datavalidR rules loaded successfully")
-    message("Dataset: ", rules$dataset)
-    message("Variables: ", length(rules$variables))
+    message("abayflowr rules loaded successfully")
+    message("Dataset: ", rules$dataset %||% "unknown")
+    message("Number of rules: ", length(rules$rules))
   }
 
-  return(rules)
+  rules
 }

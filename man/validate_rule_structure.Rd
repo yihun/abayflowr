@@ -7,22 +7,45 @@
 validate_rule_structure(rules)
 }
 \arguments{
-\item{rules}{A list read from YAML}
+\item{rules}{A list read from a YAML file (typically using \code{yaml::read_yaml()}).}
 }
 \value{
-The same rules list if valid
+The validated rules list. If the structure is invalid, the function
+stops with an informative error.
 }
 \description{
-Ensures that the rules YAML has the required sections and correct format.
+Validates the structure of a rules object loaded from a YAML configuration
+file. This function ensures that the expected sections and fields exist
+and are correctly formatted before they are used by the validation engine.
+}
+\details{
+Expected YAML structure:
+
+\preformatted{
+variables:
+  age:
+    type: numeric
+    rules:
+      - rule: min
+        value: 0
+
+cross_rules:
+  - rule: compare
+    left: start_date
+    right: end_date
+}
 }
 \examples{
 rules <- list(
   variables = list(
     age = list(
       type = "numeric",
-      rules = list(list(rule = "min", value = 0))
+      rules = list(
+        list(rule = "min", value = 0)
+      )
     )
   )
 )
+
 validate_rule_structure(rules)
 }

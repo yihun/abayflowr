@@ -2,25 +2,25 @@
 % Please edit documentation in R/load_rules.R
 \name{load_rules}
 \alias{load_rules}
-\title{Title: Load yaml files}
+\title{Load validation rules from a YAML file}
 \usage{
 load_rules(file, validate = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{validate}{logical: whether to validate the structure of the rules file}
+\item{file}{Path to YAML file containing rules}
 
-\item{verbose}{logical: whether to print messages about the loading process}
+\item{validate}{Logical. Validate the structure of the rules file}
 
-\item{file:}{structured yaml file containing rules}
+\item{verbose}{Logical. Print loading messages}
 }
 \value{
-A list of rules with class "datavalid_rules" and an attribute "source" containing the file path
+A list of rules with class "abayflowr_rules" and attribute "source"
 }
 \description{
-Title: Load yaml files
+Load validation rules from a YAML file
 }
 \examples{
-#' # Assuming you have a rules.yaml file structured correctly
+\dontrun{
 rules <- load_rules("rules.yaml")
-
+}
 }
