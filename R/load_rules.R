@@ -14,19 +14,24 @@
 #' }
 load_rules <- function(file, validate = TRUE, verbose = TRUE) {
   if (!requireNamespace("yaml", quietly = TRUE)) {
-    stop(
-      "Package 'yaml' is required. Install it with install.packages('yaml')",
-      call. = FALSE
-    )
+    stop("Package 'yaml' is required.", call. = FALSE)
   }
 
   if (!file.exists(file)) {
     stop("Rules file does not exist: ", file, call. = FALSE)
   }
 
+  if (verbose) {
+    cli_start("Loading validation rules")
+    cli_info("Reading YAML file")
+  }
+
   rules <- yaml::read_yaml(file)
 
   if (validate) {
+    if (verbose) {
+      cli_info("Validating rule structure")
+    }
     rules <- validate_rule_structure(rules)
   }
 
@@ -35,11 +40,21 @@ load_rules <- function(file, validate = TRUE, verbose = TRUE) {
   attr(rules, "source") <- normalizePath(file)
   class(rules) <- c("abayflowr_rules", class(rules))
 
+  n_rules <- sum(
+    vapply(
+      rules$variables,
+      function(v) length(v$rules),
+      integer(1)
+    )
+  )
+
   if (verbose) {
-    message("abayflowr rules loaded successfully")
-    message("Dataset: ", rules$dataset %||% "unknown")
-    message("Number of rules: ", length(rules$rules))
+    cli_success("Rules loaded successfully")
+
+    cli_rule("Dataset", rules$dataset %||% "unknown")
+    cli_rule("Variables", length(rules$variables))
+    cli_rule("Rules", n_rules)
   }
 
-  rules
+  invisible(rules)
 }
